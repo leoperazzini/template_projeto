@@ -75,5 +75,25 @@ class UsersController extends Controller
             return view('/users/store',  ['data'=>$data_view , 'message' =>$message_view ] );
         }
     }
+    
+    public function getall(){
+        
+        try{ 
+
+            $message_view = null;
+            $data_view = null;
+
+            $users = $this->UserRepository->getall();
+             
+            return view('/users/list',  ['users'=>$users , 'message' =>$message_view ] );
+
+        }catch(Exception $e){
+           
+            $message_view['message_error'] = 'Erro na operação! Por favor contactar o suporte técnico'.$e->getMessage();
+            
+            return view('/users/list',  ['message' =>$message_view ] );
+        }
+
+    }
   
 }

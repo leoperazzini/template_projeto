@@ -24,4 +24,15 @@ class GenericRepository
             throw new Exception($e->getMessage());
         }
     }
+    
+    public function getall()
+    {      
+        
+        try{ 
+             return $this->model->get();
+
+        }catch(Exception $e){ 
+            throw new Exception($e->getMessage());
+        }
+    }
 }

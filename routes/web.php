@@ -34,7 +34,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', 'AuthController@logout'); 
     
     Route::get('/users/getall', 'UsersController@getall');
+    Route::post('/users/getall', 'UsersController@getall');
+
     Route::get('/users/profile', 'UsersController@profile');
+    
     Route::get('/users/store', 'UsersController@store'); 
     Route::post('/users/store', 'UsersController@store'); 
 }); 

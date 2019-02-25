@@ -31,9 +31,8 @@ class AuthController extends Controller
 
             if ($validator->fails()) {
                 //
-                $errors = $validator->errors();
-                $message_view['message_error'] =$errors->all();
-                return view('/auth/login',  ['data'=>$data_view , 'message' =>$message_view ] );
+                $errors = $validator->errors()->toArray();  
+                return view('/auth/login',  ['data'=>$data_view , 'errors' => $errors] );
             }
       
             $credentials = $request->only('email', 'password');
@@ -44,15 +43,15 @@ class AuthController extends Controller
                 return redirect()->intended('/home');
             }
 
-            $message_view['message_error'] = 'E-mail ou senha inválido!'; 
+            $errors['login_failed'] = 'E-mail ou senha inválido!'; 
    
-            return view('/auth/login',  ['data'=>$data_view , 'message' =>$message_view ] );
+            return view('/auth/login',  ['data'=>$data_view ,  'errors' => $errors ] );
 
         }catch(Exception $e){
             // em caso de exception, avisa para o usuário de um modo diferente. Por ser um erro não esperado e de programação
-            $message_view['message_error'] = 'Erro na operação! Por favor contactar o suporte técnico'.$e->getMessage();
+            $errors['server_failed']  = 'Erro na operação! Por favor contactar o suporte técnico'.$e->getMessage();
             
-            return view('/auth/login',  ['data'=>$data_view , 'message' =>$message_view ] );
+            return view('/auth/login',  ['data'=>$data_view , 'errors' => $errors ] );
         }
     }
 

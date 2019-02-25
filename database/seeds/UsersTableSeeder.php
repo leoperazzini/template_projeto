@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => 'Admin',
             'last_name' => 'Admin',
-            'date_birth' => '26/05/1994',
+            'date_birth' => \Carbon\Carbon::createFromDate(1994,05,26)->toDateTimeString(),
             'email' => 'leoperazzini@hotmail.com',
             'password' => bcrypt('123456'),
         ]);
