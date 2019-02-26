@@ -5372,7 +5372,7 @@ button.close {
 .badge {
   display: inline-block;
   padding: 0.25em 0.4em;
-  font-size: 75%;
+  font-size: 100%;
   font-weight: 500;
   line-height: 1;
   text-align: center;
@@ -5398,7 +5398,7 @@ button.close {
 
 .badge-primary {
   color: #ffffff;
-  background-color: #2196f3;
+  background-color: #9c27b0;
 }
 
 .badge-primary[href]:hover,

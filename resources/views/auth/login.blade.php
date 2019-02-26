@@ -1,7 +1,24 @@
- 
-@include('dependencies')  
- 
-<html lang="br"><head> 
+<head>
+
+      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.css">
+      <link rel="canonical" href="https://www.creative-tim.com/product/material-kit">
+      <link href="/css/material-kit.css?v=2.0.5" rel="stylesheet"> 
+      <link href="/demo/demo.css" rel="stylesheet">
+
+                  
+    <script src="/js/core/jquery.js" type="text/javascript"></script>
+    <script src="/js/core/popper.js" type="text/javascript"></script> 
+
+     
+        <script src="/js/core/bootstrap-material-design.js" type="text/javascript"></script>
+        <script src="/js/plugins/moment.js"></script> 
+        <script src="/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script> 
+        <script src="/js/plugins/nouislider.js" type="text/javascript"></script>  
+        <script src="/js/plugins/jquery.sharrre.js" type="text/javascript"></script> 
+        <script src="/js/material-kit.js?v=2.0.5" type="text/javascript"></script>
+ </head> 
+<html lang="br">
   <title>
     Template Projeto
   </title>

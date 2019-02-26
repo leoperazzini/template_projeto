@@ -14,7 +14,7 @@ class AuthController extends Controller
     {     
         try{
             if($request->isMethod('get')){
-                return view('/auth/login');
+                return view('/auth/login', ['errors' => null]);
             }
 
             $data_view['email'] =  $request[ 'email'];
