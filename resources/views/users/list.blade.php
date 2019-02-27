@@ -18,6 +18,9 @@
  @section('content')
  
     <div class="row">
+        <div class="col-md-10"></div>
+        <div class="col-md-2"><a href="/users/store"  class="btn btn-primary btn-round">Cadastrar</a></div>
+        
         @php if(isset($users['0'])){ @endphp
             <div class="col-md-12">
               <div class="card">

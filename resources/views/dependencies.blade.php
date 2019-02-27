@@ -5,10 +5,9 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
       
       <link href="../css/material-dashboard.css?v=2.1.1" rel="stylesheet">
-    
-      <link href="demo/demo.css" rel="stylesheet">
  
-        <script src="../js/core/jquery.min.js"></script>
+  
+     <script src="../js/core/jquery.min.js"></script>
         <script src="../js/core/popper.min.js"></script>
         <script src="../js/core/bootstrap-material-design.min.js"></script>
         <script src="../js/plugins/perfect-scrollbar.jquery.min.js"></script> 
@@ -18,7 +17,7 @@
         <script src="../js/plugins/jquery.bootstrap-wizard.js"></script> 
         <script src="../js/plugins/bootstrap-selectpicker.js"></script> 
         <script src="../js/plugins/bootstrap-datetimepicker.min.js"></script> 
-        <script src=../"js/plugins/jquery.dataTables.min.js"></script> 
+        <script src=../"js/plugins/jquery.dataTables.js"></script> 
         <script src="../js/plugins/bootstrap-tagsinput.js"></script> 
         <script src="../js/plugins/jasny-bootstrap.min.js"></script> 
         <script src="../js/plugins/fullcalendar.min.js"></script> 
@@ -27,8 +26,8 @@
         <script src="../js/plugins/arrive.min.js"></script>   
         <script src="../js/plugins/chartist.min.js"></script> 
         <script src="../js/plugins/bootstrap-notify.js"></script>  
-        <script src="../js/material-dashboard.min.js?v=2.1.1" type="text/javascript"></script> 
-        <script src="demo/demo.js"></script>
+        <script src="../js/material-dashboard.min.js?v=2.1.1" type="text/javascript"></script>  
+  
   </head>
 
 

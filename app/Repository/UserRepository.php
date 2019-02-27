@@ -5,6 +5,7 @@ namespace App\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 use App\Models\User; 
 
@@ -26,7 +27,8 @@ class UserRepository extends GenericRepository
             $data['password'] = Hash::make($data['password'], [
                 'rounds' => 12
             ]); 
-            
+            $data['date_birth']  =  Carbon::createFromFormat('d/m/Y', $data['date_birth']);
+             
             return parent::create($data); 
 
        }catch(Exception $e){ 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 use App\Repository\UserRepository;
 
@@ -27,13 +28,14 @@ class UsersController extends Controller
     {     
         try{ 
             if($request->isMethod('get')){
-                return view('/users/store');
+                return view('/users/store' , ['data'=> null, 'errors' => null , 'message' =>null]);
             }
 
             $validator = Validator::make($request->all(), [
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'email' => 'required|email',
+                'email' => Rule::unique('users'),
                 'password' => 'required', 
                 'date_birth' => 'required|date_format:"d/m/Y"',
             ],
@@ -41,7 +43,8 @@ class UsersController extends Controller
                 'first_name.required' => 'Nome precisa ser preenchido', 
                 'last_name.required' => 'Sobrenome precisa ser preenchido', 
                 'email.required' => 'E-mail precisa ser preenchido', 
-                'email.email' => 'E-mail não está no formato padrão de e-mails', 
+                'email.email' => 'E-mail não está no formato padrão de e-mails',
+                'email.unique' => 'Já existe este e-mail cadastrado por outro usuário', 
                 'password.required' => 'Senha precisa ser preenchido', 
                 'date_birth.required' => 'Data de nascimento precisa ser preenchido', 
                 'date_birth.date_format' => 'Data de nascimento deve estar no formato "dd/mm/yyyy"', 
@@ -51,10 +54,9 @@ class UsersController extends Controller
 
             if ($validator->fails()) {
                 //
-                $errors = $validator->errors();
-                $message_view['message_error'] =$errors->all(); 
+                $errors = $validator->errors()->toArray(); 
 
-                return view('/users/store',  ['data'=>$data_view , 'message' =>$message_view ] );
+                return view('/users/store',  ['data'=>$data_view , 'errors' => $errors ] );
             } 
 
             $new_user = $this->UserRepository->create($data_view);
@@ -63,16 +65,16 @@ class UsersController extends Controller
                 $data_view = null;
                 $message_view['message_success'] = "Usuário cadastrado com sucesso!";
             }else{
-                $message_view['message_error'] = "Não foi possível cadastrar o novo usuário";
+                $message_view['message_error'] = "Não foi possível cadastrar um novo usuário";
             } 
 
-            return view('/users/store',  ['data'=>$data_view , 'message' =>$message_view ] );
+            return view('/users/store',  ['data'=>$data_view , 'errors' => null , 'message' =>$message_view] );
 
         }catch(Exception $e){
             // em caso de exception, avisa para o usuário de um modo diferente. Por ser um erro não esperado e de programação
             $message_view['message_error'] = 'Erro na operação! Por favor contactar o suporte técnico'.$e->getMessage();
             
-            return view('/users/store',  ['data'=>$data_view , 'message' =>$message_view ] );
+            return view('/users/store',  ['data'=>$data_view , 'errors' => null , 'message' =>$message_view ] );
         }
     }
     

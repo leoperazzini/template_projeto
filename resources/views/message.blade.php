@@ -7,7 +7,8 @@
 	@php }}else{ @endphp
 		<div class="alert alert-danger" role="alert" >{{$message['message_error']}}</div>
 	@php } @endphp	 
-	 
+
+	<br> 
 @php } @endphp
 
 @php if(!empty($message['message_success'])){ @endphp
@@ -20,5 +21,6 @@
 		<div class="alert alert-success" role="alert" >{{$message['message_success']}}</div>
 	@php } @endphp	 
 	 
+	 <br>
 @php } @endphp
  
