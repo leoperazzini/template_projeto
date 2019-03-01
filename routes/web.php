@@ -32,14 +32,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/', 'HomeController@index');
     Route::get('/logout', 'AuthController@logout'); 
-    
-    Route::get('/users/getall', 'UsersController@getall');
-    Route::post('/users/getall', 'UsersController@getall');
 
-    Route::get('/users/profile', 'UsersController@profile');
+    Route::prefix('/users')->group(function () {
     
-    Route::get('/users/store', 'UsersController@store'); 
-    Route::post('/users/store', 'UsersController@store'); 
+        Route::get('/getall', 'UsersController@getall');
+        Route::post('/getall', 'UsersController@getall');
+    
+        Route::get('/profile', 'UsersController@profile');
+        
+        Route::get('/store', 'UsersController@store'); 
+        Route::post('/store', 'UsersController@store'); 
+
+        Route::get('/update/{id}', 'UsersController@update'); 
+        Route::post('/update/{id}', 'UsersController@update'); 
+
+        Route::get('/delete/{id}', 'UsersController@delete');
+    });
+
 }); 
   
 Route::get('/login', 'AuthController@login')->name('login');; 

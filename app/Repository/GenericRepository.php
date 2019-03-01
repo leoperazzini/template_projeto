@@ -24,6 +24,41 @@ class GenericRepository
             throw new Exception($e->getMessage());
         }
     }
+
+    public function delete($id)
+    {
+        try{ 
+            return $this->model->destroy($id);
+
+       }catch(Exception $e){ 
+           throw new Exception($e->getMessage());
+       }
+    }
+
+    public function update($id, $data)
+    {      
+        
+        try{ 
+             unset($data['id']);
+             unset($data['_token']);
+             return $this->model->where('id', $id)->update($data);
+
+        }catch(Exception $e){ 
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    
+
+    public function find($id)
+    {
+        try{ 
+            return $this->model->find($id);
+
+       }catch(Exception $e){ 
+           throw new Exception($e->getMessage());
+       }
+    }
     
     public function getall()
     {      

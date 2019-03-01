@@ -13,20 +13,23 @@ class AuthController extends Controller
     public function login(Request $request)
     {     
         try{
-            if($request->isMethod('get')){
-                return view('/auth/login', ['errors' => null]);
+            $message_view = session('message');
+             
+            if($request->isMethod('get')){ 
+                //dd($message_view );
+                return view('/auth/login', ['errors' => null, 'message' => $message_view]);
             }
 
-            $data_view['email'] =  $request[ 'email'];
-            $data_view['password'] = $request[ 'password'];
+            $data_view['emaillogin'] =  $request[ 'emaillogin'];
+            $data_view['passwordlogin'] = $request[ 'passwordlogin'];
 
             $validator = Validator::make($request->all(), [
-                'email' => 'required',
-                'password' => 'required', 
+                'emaillogin' => 'required',
+                'passwordlogin' => 'required', 
             ],
             [
-                'email.required' => 'E-mail precisa ser preenchido', 
-                'password.required' => 'Senha precisa ser preenchido', 
+                'emaillogin.required' => 'E-mail precisa ser preenchido', 
+                'passwordlogin.required' => 'Senha precisa ser preenchido', 
             ]);
 
             if ($validator->fails()) {
@@ -35,9 +38,13 @@ class AuthController extends Controller
                 return view('/auth/login',  ['data'=>$data_view , 'errors' => $errors] );
             }
       
-            $credentials = $request->only('email', 'password');
+            $credentials = $request->only('emaillogin', 'passwordlogin');
             // dd($credentials);
-            
+            $credentials['email'] = $credentials['emaillogin'] ; 
+            unset($credentials['emaillogin']);
+            $credentials['password'] = $credentials['passwordlogin'] ;
+            unset($credentials['passwordlogin']);
+
             if (Auth::attempt($credentials)) {
                 // Authentication passed...
                 return redirect()->intended('/home');
