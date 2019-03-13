@@ -63,14 +63,22 @@
                                 <td>{{$user['email']}}</td>
                                 <td>@php echo date('d/m/Y', strtotime($user['date_birth'])); @endphp</td>
                                 <td class="td-actions">
-                                    <a href="/users/update/@php echo $user['id'];@endphp"  data-toggle="tooltip"  data-original-title="Editar Usuário"
+                                    <a href="/users/update/@php echo $user['id'];@endphp"  data-toggle="tooltip"  data-original-title="Editar usuário"
                                      data-placement="left" class="btn btn-primary btn-fab btn-fab-mini btn-round" >
                                         <i class="material-icons">edit</i>
                                     </a>
                                     <button
                                      user_id = "@php echo $user['id'];@endphp" 
                                      user_name = "@php echo $user['first_name'].' '.$user['last_name'];@endphp" 
-                                     data-toggle="tooltip"  data-original-title="Excluir Usuário"
+                                     data-toggle="tooltip"  data-original-title="Redefinir senha do usuário"
+                                     data-placement="top" class="button_delete_user btn btn-danger btn-fab btn-fab-mini btn-round" aria-describedby="tooltip874702">
+                                        <i class="material-icons">close</i>
+                                    </button>
+
+                                    <button
+                                     user_id = "@php echo $user['id'];@endphp" 
+                                     user_name = "@php echo $user['first_name'].' '.$user['last_name'];@endphp" 
+                                     data-toggle="tooltip"  data-original-title="Excluir usuário"
                                      data-placement="top" class="button_delete_user btn btn-danger btn-fab btn-fab-mini btn-round" aria-describedby="tooltip874702">
                                         <i class="material-icons">close</i>
                                     </button>

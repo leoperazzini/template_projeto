@@ -24,6 +24,8 @@
   </title>
  
 <body class="login-page sidebar-collapse"> 
+
+  @php //echo phpinfo(); @endphp
   
 
   <div class="page-header header-filter" style="background-color: purple; background-size: cover; background-position: top center;">
@@ -84,7 +86,7 @@
              
                     
               <div class="footer text-center">
-                <a href="#" onClick="document.getElementById('form').submit();" class="btn btn-primary btn-link btn-wd btn-lg">Entrar</a>
+                <a href="#" onClick="document.getElementById('form').submit();" class="btn btn-primary btn-wd btn-lg">Entrar</a>
               </div>
             </form>
           </div>

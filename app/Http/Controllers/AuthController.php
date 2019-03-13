@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
+
 use Exception;
 use Validator;
 
@@ -31,6 +34,18 @@ class AuthController extends Controller
                 'emaillogin.required' => 'E-mail precisa ser preenchido', 
                 'passwordlogin.required' => 'Senha precisa ser preenchido', 
             ]);
+
+            $user_table = new User;
+
+            $validator->after(function($validator) use ($user_table , $request) {                
+                if(isset($request['emaillogin'][0])) {  
+                    $user = $user_table->where('email', 'like', $request['emaillogin'])->get(); 
+                     
+                    if(!isset($user[0])) { 
+                        $validator->errors()->add('emaillogin', 'E-mail não cadastrado');
+                    } 
+                }
+            });
 
             if ($validator->fails()) {
                 //
