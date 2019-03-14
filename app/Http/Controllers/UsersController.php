@@ -203,5 +203,98 @@ class UsersController extends Controller
         }
 
     }
+
+    public function sendresetpassword($id){
+        try{ 
+ 
+            $user = $this->UserRepository->find($id);
+
+            $sended = $this->UserRepository->sendemailnewpassword($user['email'], $user['id']);
+ 
+            if($sended == true){ 
+                $message_view['message_success'] = 'E-mail enviado para "'.$user['email'].'" com sucesso!';
+ 
+            }else{
+                $message_view['message_error'] = 'Não foi possível enviar o e-mail para "'.$user['email'].'"!';
+            }  
+ 
+            return redirect('users/getall')->with(['message'=>$message_view]);
+
+        }catch(Exception $e){
+            // em caso de exception, avisa para o usuário de um modo diferente. Por ser um erro não esperado e de programação
+            $message_view['message_error'] = 'Erro na operação! Por favor contactar o suporte técnico'.$e->getMessage();
+            
+            return redirect('users/getall');
+        }
+    }
+
+    public function resetpassword(Request $request){ 
+        try{ 
+            $password_changed = false;
+            $data = $request->all();
+            $method = $request->method();
+
+            $queryString = [
+                'public_link_code' => !isset($data['public_link_code']) ?: $data['public_link_code'],
+                'email' => !isset($data['email']) ?: $data['email']
+            ];
+           
+            if ($method == 'POST')
+            {  
+                $data = $request->all();
+                $validator = Validator::make($request->all() , [
+                    'password' => 'required|min:6', 
+                    'confirmpassword' => 'required', 
+                        ],[
+                            'password.required' => 'Necessário preencher o campo!',
+                            'confirmpassword.required' => 'Necessário preencher o campo!',
+                            'password.min' => 'Senha precisa ter no mínimo 6 digitos',
+                        ]
+                    ); 
+    
+                 $validator->after(function($validator) use ($data) {                
+                        if( isset($data['password']) && isset($data['confirmpassword'])) {
+                            if($data['password'] != $data['confirmpassword']) {
+                                $validator->errors()->add('confirmpassword', 'Senhas não conferem!');
+                            } 
+                        }
+                    });
+
+                    $user_table = new User;
+
+                $validator->after(function($validator) use ($user_table , $data) {     
+                             
+                        if(isset($data['email'])) {
+                            $user = $user_table->where('email', 'like', $data['email'])->get(); 
+ 
+                            if(!isset($user[0])) {
+                                $validator->errors()->add('email', 'E-mail não encontrado');
+                            } 
+                        }
+                });
+                
+                if($validator->fails()){ 
+                    
+                    return view('users/resetpassword'  
+                    ,['errors' => $validator->errors()->toArray() , 'data'=>$request->all() , 'queryString' => $queryString]);
+                }
+ 
+                $password_changed = $this->UserRepository->changePasswordUser($request->all());
+            }
+
+            if($password_changed == true){
+                unset($data['password']);
+                unset($data['confirmpassword']);
+            }
+ 
+            return view('users/resetpassword' , ['data'=> $data, 'errors' => null , 'success'=>$password_changed,
+                'queryString' => $queryString]);
+ 
+        }catch(Exception $e) {   
+            return view('users/resetpassword' ,  ['errors' => $e->getMessage()]);
+        }
+        
+        return view('users/resetpassword' , ['data'=>$request->all() , 'errors' => null , 'queryString' => $queryString]);
+      } 
   
 }

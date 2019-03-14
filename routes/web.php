@@ -47,10 +47,22 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/update/{id}', 'UsersController@update'); 
 
         Route::get('/delete/{id}', 'UsersController@delete');
+
+        Route::get('/sendresetpassword/{id}', 'UsersController@sendresetpassword'); 
+  
     });
 
 }); 
+
+Route::group(['prefix' => '/users/resetpassword'], function(){
+    Route::get('/', 'UsersController@resetpassword');
+    Route::post('/', 'UsersController@resetpassword')->name('send-reset');
+});
   
 Route::get('/login', 'AuthController@login')->name('login');; 
   
 Route::post('/login', 'AuthController@login');
+
+Route::get('/forgotmypassword', 'AuthController@forgotmypassword')->name('forgotmypassword');; 
+  
+Route::post('/forgotmypassword', 'AuthController@forgotmypassword');

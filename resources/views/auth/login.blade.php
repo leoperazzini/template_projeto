@@ -83,9 +83,15 @@
              
               </div>
 
-             
-                    
+             <br><br>
+              <center>
+                <span style="font-style: italic">
+                  <a href="/forgotmypassword" class="">Esqueci a minha senha</a>
+                </span>
+              </center>
+
               <div class="footer text-center">
+                 
                 <a href="#" onClick="document.getElementById('form').submit();" class="btn btn-primary btn-wd btn-lg">Entrar</a>
               </div>
             </form>

@@ -70,14 +70,15 @@
                                     <button
                                      user_id = "@php echo $user['id'];@endphp" 
                                      user_name = "@php echo $user['first_name'].' '.$user['last_name'];@endphp" 
+                                     user_email = "@php echo $user['email'];@endphp" 
                                      data-toggle="tooltip"  data-original-title="Redefinir senha do usuário"
-                                     data-placement="top" class="button_delete_user btn btn-danger btn-fab btn-fab-mini btn-round" aria-describedby="tooltip874702">
-                                        <i class="material-icons">close</i>
+                                     data-placement="top" class="button_reset_passoword_user btn btn-warning btn-fab btn-fab-mini btn-round" aria-describedby="tooltip874702">
+                                        <i class="material-icons">vpn_key</i>
                                     </button>
 
                                     <button
                                      user_id = "@php echo $user['id'];@endphp" 
-                                     user_name = "@php echo $user['first_name'].' '.$user['last_name'];@endphp" 
+                                     user_name = "@php echo $user['first_name'].' '.$user['last_name'];@endphp"  
                                      data-toggle="tooltip"  data-original-title="Excluir usuário"
                                      data-placement="top" class="button_delete_user btn btn-danger btn-fab btn-fab-mini btn-round" aria-describedby="tooltip874702">
                                         <i class="material-icons">close</i>
@@ -118,6 +119,27 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="ModalResetPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header  ">
+            <h5 class="modal-title" id="exampleModalLabel">Redefinir senha do Usuário</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              Deseja redefinir senha do usuário "<span id="name_user_reset_password"></span>" ? Será enviado um e-mail para redefinir a senha para "<span id="user_email_reset_password"></span>".
+          </div>
+          <div class="modal-footer">
+          
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <a href="#" id="button_reset_password_user_confirm" class="btn btn-primary">Enviar e-mail</a>
+          </div>
+        </div>
+      </div>
+    </div>
  @endsection
 
  @section('script-js')
@@ -133,6 +155,22 @@
 
           $('#ModalDelete').modal();
         });
+
+        $('.button_reset_passoword_user').click( function (){
+            var user_id = $(this).attr('user_id');
+            var user_name = $(this).attr('user_name');
+            var user_email = $(this).attr('user_email');
+
+          $("#name_user_reset_password").html(user_name);
+
+          $("#user_email_reset_password").html(user_email);
+
+          $("#button_reset_password_user_confirm").attr("href", "/users/sendresetpassword/"+user_id );
+
+          $('#ModalResetPassword').modal();
+        });
+
+        
         
  </script> 
  @endsection
