@@ -100,7 +100,7 @@ class UserRepository extends GenericRepository
             ';
     
             $message->to($email)
-              ->from(env('MAIL_USERNAME'))
+              ->from(env('MAIL_USERNAME' , "envio@grupounicad.com.br"))
               ->subject('Definir nova senha - Template Projeto')
               ->setBody($html ,'text/html'); 
     
