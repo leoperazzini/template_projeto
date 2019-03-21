@@ -19,7 +19,7 @@
  @section('content')
  
 <!------ Include the above in your HEAD tag ---------->
-<form method="POST" action="/users/update/@php if(isset($data['id'])) { echo $data['id']; } @endphp">
+<form method="POST" enctype="multipart/form-data" action="/users/update/@php if(isset($data['id'])) { echo $data['id']; } @endphp">
     @csrf
 
     <input type="hidden" name="id" value="@php if(isset($data['id'])) { echo $data['id']; } @endphp">

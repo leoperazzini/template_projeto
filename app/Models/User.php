@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
+    const path = 'user/';
+
     /**
      * The attributes that are mass assignable.
      *

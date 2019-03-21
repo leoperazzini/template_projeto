@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\Mail; 
 
+use Illuminate\Support\Facades\Storage;
+
 use App\Repository\UserRepository;
 
 use App\Models\User; 
@@ -32,9 +34,40 @@ class UserRepository extends GenericRepository
                 'rounds' => 12
             ]); 
             $data['date_birth']  =  Carbon::createFromFormat('d/m/Y', $data['date_birth']);
-             
-            return parent::create($data); 
 
+            if(isset($data['picture_avatar'])){
+              $uploadedFile = $data['picture_avatar'];
+              $filename = 'photo'; 
+              
+              unset($data['picture_avatar']);
+            }else{
+              $uploadedFile = null;
+              $filename = null;
+            }
+ 
+            $user = parent::create($data); 
+
+            // envio de arquivo 
+            
+            $file_returned = parent::storeGenericFile($uploadedFile, $user->id, $generic_path = User::path, $filename);
+
+            if(isset($uploadedFile)){
+              $file_returned = parent::storeGenericFile($uploadedFile, $user->id, $generic_path = User::path, $filename);
+
+              if(!empty($file_returned['success'])){ 
+                $data_update['file_url'] = $file_returned['success'];
+                $user = parent::update($user->id,$data_update);  
+              }
+              if(!empty($file_returned['error'])){ 
+                parent::delete($user->id);
+                $return['error'] = $file_returned['error']; 
+              }
+            } 
+
+            $return['user'] =  $user;
+ 
+            return $return;
+   
        }catch(Exception $e){ 
            throw new Exception($e->getMessage());
        }
@@ -45,8 +78,36 @@ class UserRepository extends GenericRepository
     {      
         try{   
             $data['date_birth']  =  Carbon::createFromFormat('d/m/Y', $data['date_birth']);
+          
+            if(isset($data['picture_avatar'])){
+              $uploadedFile = $data['picture_avatar'];
+              $filename = 'photo'; 
+
+              unset($data['picture_avatar']);
+            }else{ 
+              $uploadedFile = null;
+              $filename = null;
+            }
              
-            return parent::update($id,$data); 
+            parent::update($id,$data);   
+ 
+            if(isset($uploadedFile)){
+              $file_returned = parent::storeGenericFile($uploadedFile, $id, $generic_path = User::path, $filename);
+
+              if(!empty($file_returned['success'])){ 
+                $data_update['file_url'] = $file_returned['success'];
+                parent::update($id,$data_update);   
+              }
+              if(!empty($file_returned['error'])){  
+                $return['error'] = $file_returned['error']; 
+              }
+
+            } 
+
+            $user = $this->find($id); 
+            $return['user'] =  $user;
+
+            return $return;
 
        }catch(Exception $e){ 
            throw new Exception($e->getMessage());
@@ -60,6 +121,26 @@ class UserRepository extends GenericRepository
               
             return parent::delete($id); 
 
+       }catch(Exception $e){ 
+           throw new Exception($e->getMessage());
+       }
+        
+    }
+
+    public function find($id)
+    {      
+        try{ 
+              
+            $user = parent::find($id);  
+
+            $user['date_birth'] = \Carbon\Carbon::parse($user['date_birth'])->format('d/m/Y') ;
+
+            if($user['file_url'] != ""){
+              $user['file_url_complete'] = Storage::url($user['file_url']);
+            } 
+ 
+            return $user;
+  
        }catch(Exception $e){ 
            throw new Exception($e->getMessage());
        }

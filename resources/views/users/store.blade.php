@@ -19,7 +19,7 @@
  @section('content')
  
 <!------ Include the above in your HEAD tag ---------->
-<form method="POST" action="/users/store">
+<form method="POST" action="/users/store" enctype="multipart/form-data">
     @csrf
     <div class="card">
          <div class="card-header card-header-primary">
@@ -27,8 +27,8 @@
         </div>
         <div class="card-body">
             @include('message') 
-            <div class = "row"> 
-
+            <div class = "row">  
+               
                 @include('users/formUserStore') 
   
                 <div class = "col-sm-12">

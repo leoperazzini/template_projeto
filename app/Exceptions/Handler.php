@@ -46,6 +46,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException) {
+            $message_view['message_error'][] = 'Arquivo com tamanho muito grande!';
+            return view('/users/store',  ['data'=>[] , 'errors' => null , 'message' =>$message_view] );
+        }
+    
         return parent::render($request, $exception);
     }
 }

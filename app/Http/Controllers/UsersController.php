@@ -26,7 +26,7 @@ class UsersController extends Controller
 
     //  
     public function store(Request $request)
-    {     
+    {      
         try{ 
             if($request->isMethod('get')){
                 return view('/users/store' , ['data'=> null, 'errors' => null , 'message' =>null]);
@@ -70,13 +70,14 @@ class UsersController extends Controller
                 return view('/users/store',  ['data'=>$data_view , 'errors' => $errors ] );
             } 
 
-            $new_user = $this->UserRepository->create($data_view);
+            $return = $this->UserRepository->create($data_view);
             
-            if(!empty($new_user)){
+            if(empty($return['error'])){
                 $data_view = null;
                 $message_view['message_success'] = "Usuário cadastrado com sucesso!";
             }else{
-                $message_view['message_error'] = "Não foi possível cadastrar um novo usuário";
+                $message_view['message_error'][] = "Não foi possível cadastrar um novo usuário";
+                $message_view['message_error'][] = $return['error'];
             } 
 
             return view('/users/store',  ['data'=>$data_view , 'errors' => null , 'message' =>$message_view] );
@@ -92,8 +93,7 @@ class UsersController extends Controller
     public function update($id , Request $request)
     {     
         try{ 
-            $user = $this->UserRepository->find($id); 
-            $user['date_birth'] = \Carbon\Carbon::parse($user['date_birth'])->format('d/m/Y') ; 
+            $user = $this->UserRepository->find($id);  
 
             if($request->isMethod('get')){ 
                 
@@ -135,15 +135,16 @@ class UsersController extends Controller
                 return view('/users/update',  ['data'=>$data_view , 'errors' => $errors ] );
             } 
              
-            $user = $this->UserRepository->update($id, $data_view);
- 
-            if($user == true){
-                $user = $this->UserRepository->find($id);
+            $return = $this->UserRepository->update($id, $data_view);
+  
+            if(empty($return['error'])){
+                $data_view = $return['user']; 
                 $message_view['message_success'] = "Usuário editado com sucesso!";
             }else{
-                $message_view['message_error'] = "Não foi possível editado o usuário";
+                $message_view['message_error'][] = "Não foi possível editado o usuário";
+                $message_view['message_error'][] = $return['error'];
             } 
-
+            
             return view('/users/update',  ['data'=>$data_view , 'errors' => null , 'message' =>$message_view] );
 
         }catch(Exception $e){
