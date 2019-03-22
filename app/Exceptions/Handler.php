@@ -46,9 +46,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException) {
-            $message_view['message_error'][] = 'Arquivo com tamanho muito grande!';
-            return view('/users/store',  ['data'=>[] , 'errors' => null , 'message' =>$message_view] );
+        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException) { 
+            return redirect()->back()->with('error', "Arquivo ultrapassa o limite máximo de upload de".ini_get("upload_max_filesize")."B");
         }
     
         return parent::render($request, $exception);

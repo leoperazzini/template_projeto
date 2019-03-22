@@ -44,13 +44,18 @@ class UserRepository extends GenericRepository
               $uploadedFile = null;
               $filename = null;
             }
+
+            if($data['picture_avatar_apagar'] == 'true'){
+              unset($uploadedFile);
+              $data['file_url'] = '';
+            } 
+
+            unset($data['picture_avatar_apagar']);
  
             $user = parent::create($data); 
 
             // envio de arquivo 
-            
-            $file_returned = parent::storeGenericFile($uploadedFile, $user->id, $generic_path = User::path, $filename);
-
+             
             if(isset($uploadedFile)){
               $file_returned = parent::storeGenericFile($uploadedFile, $user->id, $generic_path = User::path, $filename);
 
@@ -78,7 +83,7 @@ class UserRepository extends GenericRepository
     {      
         try{   
             $data['date_birth']  =  Carbon::createFromFormat('d/m/Y', $data['date_birth']);
-          
+            
             if(isset($data['picture_avatar'])){
               $uploadedFile = $data['picture_avatar'];
               $filename = 'photo'; 
@@ -88,6 +93,13 @@ class UserRepository extends GenericRepository
               $uploadedFile = null;
               $filename = null;
             }
+
+            if($data['picture_avatar_apagar'] == 'true'){
+              unset($uploadedFile);
+              $data['file_url'] = '';
+            } 
+
+            unset($data['picture_avatar_apagar']);
              
             parent::update($id,$data);   
  

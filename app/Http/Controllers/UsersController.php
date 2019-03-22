@@ -94,7 +94,7 @@ class UsersController extends Controller
     {     
         try{ 
             $user = $this->UserRepository->find($id);  
-
+// dd(session()->get('error'));
             if($request->isMethod('get')){ 
                 
                 return view('/users/update' , ['data'=> $user, 'errors' => null , 'message' =>null]);
@@ -188,7 +188,7 @@ class UsersController extends Controller
         
         try{ 
 
-            $message_view = session('message');
+            $message_view = session('message'); 
             $data_view = null;
              
 

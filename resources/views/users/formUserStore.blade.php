@@ -67,7 +67,14 @@
 
 <div class = "col-sm-6">
 
-        <div class = "col-sm-12"><br><center>Foto de Perfil<center><br></div>
+        <div class = "col-sm-12"> <center>
+                Foto de Perfil
+                                    <a href="#" 
+                                     data-toggle="tooltip"  data-original-title="Desvincular Foto" id="delete_photo"
+                                     data-placement="top" class="btn btn-danger btn-link btn-fab btn-fab-xg btn-round" aria-describedby="tooltip874702">
+                                        <i class="material-icons">close</i>
+                                    </a>
+        <center> </div>
 
         <div class = "col-sm-12">
                     <center>​
@@ -83,6 +90,7 @@
                 <center>​
                     <span class="btn btn-raised btn-round btn-primary btn-file"> 
                             <input type="file" name="picture_avatar" id="picture_avatar" onchange="readURL(this);"/>
+                            <input type="text" name="picture_avatar_apagar" id="picture_avatar_apagar" value ="false" />
                     </span>
                 </center>
         </div>
@@ -97,8 +105,19 @@
         }); 
     });
 
+    var img = '@php echo URL::to("/")."/imagens/avatar.png" ; @endphp';
+
+    $("#delete_photo").click( function (){ 
+        var fileupload = $("#picture_avatar"); 
+        //fileupload.click();
+        $('#picture_avatar_img').attr('src', img);
+        $('#picture_avatar_apagar').val('true');
+                        
+    });
+
     function readURL(input) {
             if (input.files && input.files[0]) {
+                $('#picture_avatar_apagar').val('false');
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
@@ -108,7 +127,8 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
-        }
+    }
+    
 </script>
                  
    
